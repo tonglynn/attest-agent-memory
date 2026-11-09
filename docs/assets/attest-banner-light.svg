@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="180" viewBox="0 0 1000 180" role="img" aria-labelledby="title desc">
+<title id="title">Attest</title><desc id="desc">Evidence-backed memory for coding agents</desc>
+<rect width="1000" height="180" rx="12" fill="#eff4fa"/>
+<g font-family="Segoe UI, Arial, sans-serif"><text x="36" y="79" fill="#182f4e" font-size="44" font-weight="650">Attest</text><text x="38" y="123" fill="#52677f" font-size="23">Evidence-backed memory for coding agents</text></g>
+<g transform="translate(846 43)" fill="none" stroke="#c6d4e5" stroke-width="2"><path d="M0 8h60v78H0zM12 25h34M12 39h26M12 53h18"/><path d="M48 42l32-12 32 12v24c0 24-32 40-32 40S48 90 48 66z" fill="#eff4fa" stroke="#285fa8"/><path d="m66 64 10 10 19-23" stroke="#285fa8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>

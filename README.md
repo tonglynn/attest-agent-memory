@@ -1,85 +1,46 @@
-<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/attest-banner-dark.svg">
+  <img src="docs/assets/attest-banner-light.svg" width="100%" alt="Attest — Evidence-backed memory for coding agents">
+</picture>
 
 # Attest
 
-**Verified, scoped, retractable memory for coding agents.**
+**Coding agents remember the review. Your team controls the memory.**
 
-Coding agents learn from code review, but only what a verified change actually applied,
-only within the repository and version it came from, and only until a person retracts it.
+Attest is an MCP memory server that learns review feedback from verified code changes, recalls it within the relevant repository and version, and lets people review, supersede, or retract it. Built for coding workflows that need reusable team knowledge with traceable evidence.
 
-[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-1d7448)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml)
-[![MCP server](https://img.shields.io/badge/MCP-server-5b6a60)](attest/mcp_server.py)
-[![Live demo](https://img.shields.io/badge/demo-live-2648b8)](https://tonglynn.github.io/attest-agent-memory/)
+[Project & demo](https://tonglynn.github.io/attest-agent-memory/) · [Open interactive walkthrough](https://tonglynn.github.io/attest-agent-memory/app/) · [简体中文](README.zh-CN.md)
 
-[**Live demo**](https://tonglynn.github.io/attest-agent-memory/) ·
-[**5-minute recording**](docs/attest_mcp_live.mp4) ·
-[**Full write-up**](ASSESSMENT.md) ·
-[**简体中文**](README.zh-CN.md)
+[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml) [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml) [![MIT](https://img.shields.io/badge/license-MIT-52677f)](LICENSE)
 
-</div>
+## From one review to the next task
 
-<p align="center">
-  <img src="docs/assets/live_run.gif" width="880"
-       alt="Five moments from a live session in the Claude desktop app: a review rule approved as at-0002, test-passing float advice rejected, an unsupported rule held for a person, the recall result changing after a person approves and retracts, and a second session recalling both rules">
-  <br>
-  <sub>A live session with Claude and the Attest MCP server: a rule is learned, a test-passing bad rule is rejected,
-  an unsupported one waits for a person, and recall follows the people's decisions.</sub>
-</p>
+1. **Collect evidence.** After a change, Attest runs verification and captures the review and actual diff. The model proposes candidate notes.
+2. **Check admission.** A deterministic evidence gateway approves, rejects, or holds each candidate for human review. Passing tests alone does not make advice correct.
+3. **Recall in scope.** A new task retrieves notes for its repository, version, and status, together with their provenance.
+4. **Keep people in control.** People review, supersede, and retract through `attest-admin`. These management tools are not exposed over MCP.
 
-## Why
+## See a real session
 
-Coding agents keep repeating mistakes that review already corrected. Memory systems built
-to fix this usually store whatever the agent concluded, apply it everywhere and never take
-it back. A plausible but wrong suggestion that happens to pass the tests then becomes a
-permanent rule.
+[![Recorded Claude Desktop session: learning, evidence checks, and human review](docs/assets/live_run.gif)](https://tonglynn.github.io/attest-agent-memory/app/)
 
-Attest treats every memory as a claim that needs evidence:
+Recorded with Claude Desktop and the Attest MCP server. The interactive walkthrough separately labels browser execution, experiment replays, and precomputed results.
 
-- **Learn only from verified work.** Attest runs the verification command itself. A note
-  must quote the review comment it came from and point to the changed line that applied it.
-- **Decide deterministically.** An evidence gateway approves, rejects, or holds a note for a
-  person. No model call decides what becomes a rule.
-- **Stay in scope.** Every note is bound to a repository and a version range, so it is never
-  recalled in another codebase or after a policy changed.
-- **Keep people in charge.** Only people approve, reject, supersede or retract, through a
-  command line the agent has no access to. Every change goes to an append-only, HMAC-sealed log.
+[Watch the 5-minute recording](docs/attest_mcp_live.mp4) · [MCP integration guide](docs/MCP_DEMO.md)
 
-## Results
+## What has been measured
 
-| | Result | Source |
-|---|---|---|
-| **Learns** | Held-out first-attempt pass rate **33% → 70%** (+36 pp [+21, +52]) on tasks it never learned from | Preregistered main experiment, [`runs/main`](runs/main) |
-| **Is not taught wrong** | Test-passing poisoned advice stored as a rule **0/60** times (no gate: 46/60, ACE-style: 38, ReasoningBank-style: 50) | [`runs/poison_channels`](runs/poison_channels) |
-| **Costs nothing on clean work** | With the evidence gateway: 82% pass@1, same as no gate, +9 pp over the preregistered gate | [`runs/gate_confirm`](runs/gate_confirm) |
-| **Stays in scope** | **0** foreign notes leaked into a control repository (54 without scoping) | [`runs/main`](runs/main) |
-| **Follows policy change** | Tasks after a policy change **+67 pp** with versioned notes | [`runs/main`](runs/main) |
+- **Learning: 33% → 70% first-attempt pass rate.** Preregistered main experiment: one model, an author-designed synthetic billing benchmark, 11 held-out tasks repeated three times.
+- **Admission: 0/60 attacks became rules.** Later D70 synthetic attacks against gateway v4. With empty memory, 23/60 were still retained as unconfirmed notes; this does not mean zero storage or exposure risk.
+- **Performance has tradeoffs.** In the later exploratory D71 experiment, gateway v3.1 reached 82% on the clean stream, matching the no-gate arm. The original preregistered gate had a 15-point cost.
 
-<p align="center">
-  <img src="docs/effect_safety.png" width="760"
-       alt="Scatter plot: clean-stream pass@1 against poisoned runs applied for six memory systems; Attest with the evidence gateway sits at 82 to 84 percent and 0 of 55">
-</p>
+These are different versions and experiments, not a combined production or security guarantee. [Full results & limitations](RESULTS.md) · [Preregistered protocol](PREREGISTRATION.md)
 
-Negative results are reported as well: the preregistered write gate cost −15 pp
-(hypothesis H6 not supported), and failure attribution remains unsolved. See [Limits](#limits).
+## System design
 
-## How it works
+![Write path, scoped recall, and separate human governance](docs/assets/architecture.svg)
 
-<p align="center">
-  <img src="docs/assets/architecture.svg" width="880"
-       alt="Write path: verify, propose, gate, merge into team memory. Recall path: filter, rank, inject, feed back. People approve, reject and retract through attest-admin, not through MCP.">
-</p>
-
-- **Write path** (`learn`, after a verified task): the model proposes at most three
-  candidates, each quoting the review and the changed line; deterministic checks and the
-  evidence gateway decide *approve*, *reject* or *hold for a person*; approved notes are
-  merged with, supersede, or correct existing ones.
-- **Recall path** (`recall`, before a new task): filter by repository, version range and
-  status; rank against the task with core rules first under a soft token budget; inject each
-  note with its provenance; feed the outcome back (verified → stronger, failed → suspect → retired).
-- **Human governance**: approval and retraction exist only in `attest-admin`. The MCP server
-  exposes no approve or retract tool, and an agent cannot approve its own notes.
+The memory core supports SQLite and JSONL. MCP provides the agent tools; `attest-admin` provides the human governance interface. Events remain in an append-only log.
 
 ## Quick start
 
@@ -156,7 +117,7 @@ through the [`experiment`](.github/workflows/experiment.yml) workflow.
 | `attest/mcp_server.py` · `attest/admin.py` | MCP server for agents; command line for people |
 | `benchmark/` | 25-task benchmark on a synthetic billing codebase |
 | `runs/` | Every experiment run |
-| `docs/app/` | Source of the interactive demo |
+| `demo-app/` · `docs/app/` | Interactive demo source and published build |
 
 ## Limits
 

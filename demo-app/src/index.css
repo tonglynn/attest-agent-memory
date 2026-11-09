@@ -8,17 +8,17 @@
 @tailwind utilities;
 
 :root {
-  --paper: #eef1ec;  /* ledger paper, a faint green-grey */
-  --sheet: #fbfcfa;
-  --rule: #d3dad1;
-  --ink: #18221c;
-  --soft: #5b6a60;
-  --pen: #2648b8;    /* fountain-pen blue */
-  --penwash: #e3e9fa;
+  --paper: #f3f6fa;
+  --sheet: #ffffff;
+  --rule: #dce4ed;
+  --ink: #192d48;
+  --soft: #58697d;
+  --pen: #255fb2;
+  --penwash: #eaf0f8;
   --ok: #1d7448; --okwash: #ddf0e4;
   --hold: #9a6a08; --holdwash: #f6ecd2;
   --bad: #b23a2e; --badwash: #f7e0dc;
-  --code: #f1f4f0;
+  --code: #f3f6fa;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {

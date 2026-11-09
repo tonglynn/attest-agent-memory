@@ -1,66 +1,46 @@
-<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/attest-banner-dark.svg">
+  <img src="docs/assets/attest-banner-light.svg" width="100%" alt="Attest — Evidence-backed memory for coding agents">
+</picture>
 
 # Attest
 
-**面向编码智能体的可验证、限定作用域、可撤回的团队记忆。**
+**让编码智能体记住评审经验，让团队掌握记忆的使用权。**
 
-编码智能体从代码评审中学习，但只学习经验证改动实际采用的经验，只在来源仓库与适用版本内生效，人工撤回后即刻失效。
+Attest 是一个 MCP 记忆服务：从已验证的代码改动中学习评审经验，按仓库与版本召回，并支持人工审核、取代和撤回。适合需要跨任务复用团队规则、同时保留来源与决策记录的编码工作流。
 
-[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-1d7448)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml)
-[![MCP server](https://img.shields.io/badge/MCP-server-5b6a60)](attest/mcp_server.py)
-[![Live demo](https://img.shields.io/badge/demo-live-2648b8)](https://tonglynn.github.io/attest-agent-memory/)
+[项目与演示](https://tonglynn.github.io/attest-agent-memory/) · [直接进入交互演示](https://tonglynn.github.io/attest-agent-memory/app/) · [English](README.md)
 
-[**在线演示**](https://tonglynn.github.io/attest-agent-memory/) ·
-[**5 分钟实录**](docs/attest_mcp_live.mp4) ·
-[**完整报告**](ASSESSMENT.md) ·
-[**English**](README.md)
+[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml) [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml) [![MIT](https://img.shields.io/badge/license-MIT-52677f)](LICENSE)
 
-</div>
+## 从一次评审，到下一次任务
 
-<p align="center">
-  <img src="docs/assets/live_run.gif" width="880" alt="Claude 桌面应用真实运行中的五个时刻：评审规则批准为 at-0002；可通过测试的 float 建议被拒绝；证据不足的规则转人工；人工批准与撤回后召回结果随之变化；第二次会话召回两条规则">
-  <br>
-  <sub>Claude 接入 Attest MCP 服务的真实运行：学习一条规则，拒绝一条可通过测试的错误规则，证据不足的规则交由人工判定，召回结果随人工决定更新。</sub>
-</p>
+1. **采集依据。** 完成改动后，Attest 执行验证，收集评审原文与实际 diff；模型提出候选经验。
+2. **判断准入。** 确定性证据网关将候选分为批准、拒绝或待人工。测试通过本身不代表建议正确。
+3. **按需召回。** 新任务只检索适用仓库、版本与状态内的经验，并附带来源。
+4. **人工治理。** 团队通过独立的 `attest-admin` 审核、取代或撤回经验；MCP 不暴露这些管理工具。
 
-## 动机
+## 看一次真实运行
 
-编码智能体反复出现评审已纠正过的错误。现有记忆方案通常保存智能体自行得出的结论、在所有场景中套用且无法撤回，因此一条能通过测试的错误建议可能被固化为永久规则。
+[![Claude Desktop 接入 Attest 的录制：学习、证据判定与人工审核](docs/assets/live_run.gif)](https://tonglynn.github.io/attest-agent-memory/app/)
 
-Attest 将每条记忆视为需要证据支持的主张：
+这是 Claude Desktop 与 MCP 服务的真实运行录制。交互演示另外标明浏览器执行、实验回放和预先计算结果。
 
-- **仅从经验证的工作中学习。** 验证命令由 Attest 自行执行；每条经验须引用来源评审原文，并指向采用该经验的改动行。
-- **确定性判定。** 证据网关将经验判定为批准、拒绝或待人工；是否成为规则不由模型调用决定。
-- **限定作用域。** 每条经验绑定仓库与适用版本区间，不会在其他代码库或政策变更后被召回。
-- **人工主导治理。** 批准、拒绝、取代与撤回仅由人工经命令行执行，智能体无权访问；全部变更写入只追加、经 HMAC 封存的事件日志。
+[观看 5 分钟实录](docs/attest_mcp_live.mp4) · [MCP 接入说明](docs/MCP_DEMO.md)
 
-## 结果
+## 已验证什么
 
-| | 结果 | 来源 |
-|---|---|---|
-| **持续学习** | 留出任务首轮通过率 **33% → 70%**（+36 pp [+21, +52]） | 预注册主实验，[`runs/main`](runs/main) |
-| **抵御投毒** | 可通过测试的投毒建议成为规则 **0/60**（无门槛 46/60，ACE 式 38，ReasoningBank 式 50） | [`runs/poison_channels`](runs/poison_channels) |
-| **无额外代价** | 启用证据网关后通过率 82%，与无门槛持平，较预注册门槛高 9 pp | [`runs/gate_confirm`](runs/gate_confirm) |
-| **作用域隔离** | 对照仓库泄漏经验 **0** 条（不限定作用域时 54 条） | [`runs/main`](runs/main) |
-| **政策变更** | 政策变更后的任务 **+67 pp** | [`runs/main`](runs/main) |
+- **经验复用：33% → 70%。** 预注册主实验的留出任务首轮通过率；一个模型、作者设计的合成计费系统、11 个留出任务各重复 3 次。
+- **投毒准入：0/60 成为规则。** 后续 D70 合成攻击中，v4 网关未将攻击存为规则；空记忆条件下仍有 23/60 以未确认笔记保留。这不等于没有存储或暴露风险。
+- **效果与代价需要一起看。** 后续探索性 D71 中，v3.1 网关干净流通过率为 82%，与无门槛持平；原预注册门槛则有 −15 个百分点代价。
 
-<p align="center">
-  <img src="docs/effect_safety.png" width="760" alt="散点图：六种记忆系统的干净任务通过率与照做投毒次数；启用证据网关的 Attest 位于 82%–84%、0/55">
-</p>
+这些结果来自不同版本与实验，不能合并为生产环境效果或全面安全保证。[完整结果与局限](RESULTS.md) · [预注册方案](PREREGISTRATION.md)
 
-负面结果同样报告：预注册写入门槛带来 −15 pp 代价（H6 不成立），失败归因问题尚未解决。详见[局限](#局限)。
+## 系统结构
 
-## 工作原理
+![写入、召回与独立人工治理的系统结构](docs/assets/architecture.svg)
 
-<p align="center">
-  <img src="docs/assets/architecture.svg" width="880" alt="写入链路：验证、提炼、门槛、入库；召回链路：过滤、排序、注入、回写；批准、拒绝与撤回仅经 attest-admin 由人工执行">
-</p>
-
-- **写入链路**（`learn`，任务验证通过后触发）：模型至多提出三条候选，每条附评审原文与对应改动行；确定性检查与证据网关判定为批准、拒绝或待人工；批准的经验与既有经验合并、取代或更正。
-- **召回链路**（`recall`，新任务开始前触发）：按仓库、版本区间与状态过滤；核心规则优先，在软预算内按任务相关性排序；每条附来源注入；任务结束后回写结果（通过则加强，失败则标为可疑直至退役）。
-- **人工治理**：批准与撤回仅存在于 `attest-admin`；MCP 服务不提供相应工具，智能体无法批准自身提出的经验。
+核心记忆层支持 SQLite 与 JSONL；MCP 为智能体提供工具，`attest-admin` 为人工提供治理入口。事件保留在只追加的日志中。
 
 ## 快速开始
 
