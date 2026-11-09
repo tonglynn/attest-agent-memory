@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Attest, please cite it as below."
+title: "Attest: verified, scoped, retractable memory for coding agents"
+type: software
+authors:
+  - family-names: Lin
+    given-names: Tong
+version: 0.1.0
+date-released: 2026-11-10
+license: MIT
+repository-code: "https://github.com/tonglynn/attest-agent-memory"
+url: "https://tonglynn.github.io/attest-agent-memory/"
+keywords:
+  - agent memory
+  - coding agents
+  - model context protocol
+  - memory poisoning

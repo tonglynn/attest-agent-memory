@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "attest-agent-memory"
+version = "0.1.0"
+description = "Verified, scoped, retractable memory for coding agents, served over MCP."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Tong Lin" }]
+requires-python = ">=3.11"
+keywords = ["agent-memory", "coding-agents", "mcp", "llm", "memory-poisoning", "code-review"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# The memory core is standard library only; the MCP server needs `mcp`.
+dependencies = ["mcp>=2.3,<3"]
+
+[project.optional-dependencies]
+# Reproduce the experiments (agent runner and model access).
+experiments = ["mini-swe-agent==2.4.6", "litellm==1.106.6"]
+# Embedding retrieval for the retrieval ablation (local ONNX model, CPU).
+embeddings = ["fastembed==0.9.1", "onnxruntime==1.31.1"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+attest-mcp = "attest.mcp_server:main"
+attest-admin = "attest.admin:main"
+
+[project.urls]
+Homepage = "https://github.com/tonglynn/attest-agent-memory"
+Demo = "https://tonglynn.github.io/attest-agent-memory/"
+Documentation = "https://github.com/tonglynn/attest-agent-memory/blob/main/ASSESSMENT.md"
+
+[tool.setuptools.packages.find]
+include = ["attest*"]
+
+[tool.setuptools.package-data]
+attest = ["config/*.yaml", "*.html"]

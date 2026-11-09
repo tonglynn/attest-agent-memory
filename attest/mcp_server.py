@@ -226,5 +226,10 @@ def build_server():
     return server
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Console entry point (``attest-mcp``): serve over stdio."""
     build_server().run("stdio")
+
+
+if __name__ == "__main__":
+    main()
