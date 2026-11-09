@@ -32,7 +32,7 @@ export default function App() {
     <div className="min-h-full" style={{ paddingLeft: "max(16px, env(safe-area-inset-left, 0px))", paddingRight: "max(16px, env(safe-area-inset-right, 0px))" }}>
       <div className="mx-auto grid max-w-[1320px] gap-6 py-5 lg:grid-cols-[230px_minmax(0,1fr)]">
         <aside className="grid content-start gap-5 lg:sticky lg:top-5 lg:self-start">
-          <div className="grid gap-1"><a href="../" className="text-[22px] font-bold tracking-tight">Attest</a><span className="text-xs text-soft">交互演示 · 团队记忆治理</span><a href="../" className="mt-1 text-xs text-pen hover:underline">返回项目介绍</a></div>
+          <div className="grid gap-1"><a href="#opening" className="text-[22px] font-bold tracking-tight">Attest</a><span className="text-xs text-soft">MCP 记忆服务 · 交互演示</span><a href="https://github.com/tonglynn/attest-agent-memory" className="mt-1 text-xs text-pen hover:underline">项目源码与文档</a></div>
           <nav aria-label="演示步骤" className="flex gap-1 overflow-x-auto lg:grid lg:overflow-visible">
             {VIEWS.map(([k, t, d]) => (
               <button key={k} onClick={() => go(k)} aria-current={view === k ? "page" : undefined} className={cn("grid shrink-0 rounded-md px-3 py-2 text-left", view === k ? "bg-sheet shadow-[inset_3px_0_0_var(--pen)]" : "hover:bg-sheet")}>

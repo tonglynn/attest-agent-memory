@@ -9,9 +9,18 @@
 
 Attest 是一个 MCP 记忆服务：从已验证的代码改动中学习评审经验，按仓库与版本召回，并支持人工审核、取代和撤回。适合需要跨任务复用团队规则、同时保留来源与决策记录的编码工作流。
 
-[项目与演示](https://tonglynn.github.io/attest-agent-memory/) · [直接进入交互演示](https://tonglynn.github.io/attest-agent-memory/app/) · [English](README.md)
+[交互演示](https://tonglynn.github.io/attest-agent-memory/) · [MCP 接入指南](docs/MCP_DEMO.md) · [English](README.md)
 
-[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml) [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml) [![MIT](https://img.shields.io/badge/license-MIT-52677f)](LICENSE)
+[![MCP server](https://img.shields.io/badge/MCP-server-255fb2)](docs/MCP_DEMO.md)
+[![CI tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776ab)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-52677f)](LICENSE)
+
+[![Main study: preregistered](https://img.shields.io/badge/Main_study-preregistered-226b53)](PREREGISTRATION.md)
+[![Evidence: public run logs](https://img.shields.io/badge/Evidence-public_run_logs-52677f)](runs/)
+
+
+CI 覆盖 Python **3.11、3.12、3.13**。主实验提供预注册方案，实验运行记录与负面结果均公开，可逐项核查。
 
 ## 从一次评审，到下一次任务
 

@@ -9,9 +9,18 @@
 
 Attest is an MCP memory server that learns review feedback from verified code changes, recalls it within the relevant repository and version, and lets people review, supersede, or retract it. Built for coding workflows that need reusable team knowledge with traceable evidence.
 
-[Project & demo](https://tonglynn.github.io/attest-agent-memory/) · [Open interactive walkthrough](https://tonglynn.github.io/attest-agent-memory/app/) · [简体中文](README.zh-CN.md)
+[Interactive demo](https://tonglynn.github.io/attest-agent-memory/) · [MCP integration guide](docs/MCP_DEMO.md) · [简体中文](README.zh-CN.md)
 
-[![tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml) [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](pyproject.toml) [![MIT](https://img.shields.io/badge/license-MIT-52677f)](LICENSE)
+[![MCP server](https://img.shields.io/badge/MCP-server-255fb2)](docs/MCP_DEMO.md)
+[![CI tests](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/tonglynn/attest-agent-memory/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776ab)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-52677f)](LICENSE)
+
+[![Main study: preregistered](https://img.shields.io/badge/Main_study-preregistered-226b53)](PREREGISTRATION.md)
+[![Evidence: public run logs](https://img.shields.io/badge/Evidence-public_run_logs-52677f)](runs/)
+
+
+CI covers Python **3.11, 3.12, and 3.13**. The main study has a preregistered protocol; experiment run logs and negative results are public for inspection.
 
 ## From one review to the next task
 
