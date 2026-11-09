@@ -55,13 +55,16 @@ CI 覆盖 Python **3.11、3.12、3.13**。主实验提供预注册方案，实�
 
 [运行记录](runs/gate_confirm) · [机器可读汇总](runs/gate_confirm/summary.json) · [分析脚本](scripts/gate_confirm_report.py)
 
-## 系统结构
-
-![写入、召回与独立人工治理的系统结构](docs/assets/architecture.svg)
-
-核心记忆层支持 SQLite 与 JSONL；MCP 为智能体提供工具，`attest-admin` 为人工提供治理入口。事件保留在只追加的日志中。
-
 ## 核心机制
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="docs/assets/mechanism-flow-zh-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset="docs/assets/mechanism-flow-zh-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/mechanism-flow-zh-dark.svg">
+  <img src="docs/assets/mechanism-flow-zh-light.svg" width="100%" alt="Attest 核心机制：服务端证据链、三态准入、作用域召回、结果反馈与独立人工治理；实验扩展单独标注。">
+</picture>
+
+实线表示默认 MCP 的学习、召回和反馈路径；虚线框标出人工 CLI 与实验扩展边界。记忆核心支持 SQLite 与 JSONL，事件历史保留。[简版架构](docs/assets/architecture.svg)。
 
 以合成计费场景中的一条**示意规则**为例：评审要求退款函数接收仅限关键字传入的幂等键，并在修改状态前检查它。下面说明这类反馈如何变成可复用经验，不代表新增实验结果。
 

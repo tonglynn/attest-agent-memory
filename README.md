@@ -55,13 +55,16 @@ Conditions: one model (`deepseek-flash`), an author-designed synthetic billing b
 
 [Run records](runs/gate_confirm) · [Machine-readable summary](runs/gate_confirm/summary.json) · [Analysis script](scripts/gate_confirm_report.py)
 
-## System design
-
-![Write path, scoped recall, and separate human governance](docs/assets/architecture.svg)
-
-The memory core supports SQLite and JSONL. MCP provides the agent tools; `attest-admin` provides the human governance interface. Events remain in an append-only log.
-
 ## Core mechanisms
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="docs/assets/mechanism-flow-en-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset="docs/assets/mechanism-flow-en-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/mechanism-flow-en-dark.svg">
+  <img src="docs/assets/mechanism-flow-en-light.svg" width="100%" alt="Attest mechanisms: server-side evidence, three-state admission, scoped recall, outcome feedback, and separate human governance; experimental extensions are marked separately.">
+</picture>
+
+Solid paths show default MCP learning, recall, and feedback. Dashed boxes distinguish the human CLI and experimental extensions. The memory core supports SQLite/JSONL and retains event history. [High-level architecture](docs/assets/architecture.svg).
 
 Consider an **illustrative rule from the synthetic billing scenario**: a review asks a refund function to accept a keyword-only idempotency key and check it before changing state. The lifecycle below explains how such feedback can become reusable knowledge; it is not an additional experiment result.
 
