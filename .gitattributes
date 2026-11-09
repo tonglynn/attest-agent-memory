@@ -1,0 +1,6 @@
+# Language statistics: the library and experiments are Python; the demo site, its
+# bundled runtime and generated reports are documentation, not source.
+docs/** linguist-documentation
+demo-app/** linguist-documentation
+report/** linguist-generated
+runs/** linguist-generated
